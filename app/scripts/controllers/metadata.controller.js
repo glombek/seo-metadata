@@ -28,7 +28,7 @@ angular.module("umbraco")
 
             $scope.init = function() {
                 var content = $scope.GetParentContent();
-                if (!content.published) {
+                if (!content.published && content.parentId !== -1) {
                     // get the URL of the parent document for later
                     contentResource.getById(content.parentId).then(function(data) {
                         $scope.parentUrl = data.urls[0];
@@ -53,7 +53,7 @@ angular.module("umbraco")
                         name = "unpublished-page";
                     }
 
-                    return $scope.ProtocolAndHost() + $scope.parentUrl + name + "/";
+                    return $scope.ProtocolAndHost() + ($scope.parentUrl || "") + name + "/";
                 }
 
                 var nodeUrl = pageContent.urls[0];
